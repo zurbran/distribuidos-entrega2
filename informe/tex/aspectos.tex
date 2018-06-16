@@ -1,0 +1,22 @@
+Para la realización del trabajo se tuvieron consideraciones generales a la hora de implementar el codigo en C. Dichas consideraciones son las siguientes:
+
+\begin{itemize}
+\item \textbf{Utilización de macros:} reemplazadas funciones llamadas recurrentemente como \textbf{setValor()} y \textbf{getValor()} evitando así la penalización que ocurre al llamar funciones y produciendo un impacto significante en el rendimiento del programa.
+\item \textbf{Dimension y cantidad de threads por párametros:} Para la ejecución de los programas se deben establecer la cantidad de núcleos a utilizar y el tamaño N*N de la matriz.
+\item \textbf{Matrices alocadas dinámicamente:} Para evitar la limitación del tamaño del stack.
+\item \textbf{Multiplicación de matrices optimizada para caché de CPU:} Dado que la multiplicación de matrices se efectua recorriendo filas en la matriz derecha y columnas en la matriz izquierda, para aprovechar el principio de localidad espacial implementado por los procesadores a la hora de guardar datos en la cache, de esta forma reduciendose así los fallos de caché.
+\item \textbf{Globalización de variables frecuentemente utilizadas:} Para evitar desperdicio de RAM y establecimiento de las mismas multiples veces se hicieron globales ciertas variables necesarias para muchas funciones. Por ejemplo: N y T.
+\end{itemize}
+
+\subsection{Hardware Utilizado}
+
+Para las mediciones de los tiempos de ejecución se utilizó la siguiente configuración de hardware:
+
+\begin{itemize}
+\item \textbf{CPU:} Intel core i5 6600, 3.30Ghz 6MB cache L3
+\item \textbf{Hyper Threading:} Desactivado
+\item \textbf{Turbo Frequency:} Desactivado
+\item \textbf{RAM:} 16 GB 2133Mhz DDR4 Dual Channel
+\end{itemize}
+
+Para una mejor aproximación de los tiempos de ejecución se corrieron cuatro veces los distintos programas con los mismos parámetros así luego promediandose.

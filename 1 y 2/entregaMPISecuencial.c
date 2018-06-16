@@ -59,7 +59,7 @@ void inicializarMatrizSupCol(double *U, double valor, int N)
 	} 
 }
 
-void cuadradaFilPorCuadradaCol(double *A, double *B, double *C, int N)
+void squareRowMatXSquareColMat(double *A, double *B, double *C, int N)
 {
 	double sum;
 	int i, j, k;
@@ -77,7 +77,7 @@ void cuadradaFilPorCuadradaCol(double *A, double *B, double *C, int N)
 	}  
 }
 
-void triangularInferiorPorCuadrada(double *L, double *B, double *C, int N)
+void lowerRowMatXSquareColMat(double *L, double *B, double *C, int N)
 {
 	double sum;
 	int i, j, k;
@@ -96,7 +96,7 @@ void triangularInferiorPorCuadrada(double *L, double *B, double *C, int N)
 }
 
 
-void cuadradaPorTriangularSuperior(double *A, double *U, double *C, int N)
+void squareRowMatXUpperColMat(double *A, double *U, double *C, int N)
 {
 	double sum;
 	int i, j, k;
@@ -115,7 +115,7 @@ void cuadradaPorTriangularSuperior(double *A, double *U, double *C, int N)
 }
 
 
-void sumarMatrices(double *A, double *B, double *C, int length)
+void addMatrix(double *A, double *B, double *C, int length)
 {
 	for(int i = 0; i < length; i++)
 	{
@@ -123,7 +123,7 @@ void sumarMatrices(double *A, double *B, double *C, int length)
 	}
 }
 
-double sumarMatriz(double *A, int length)
+double sumMatrix(double *A, int length)
 {
 	double sum = 0.0;
 	for(int i = 0; i < length; i++)
@@ -187,15 +187,15 @@ int main(int argc, char ** argv)
     
     double tiempoInit = dwalltime();
 
-    cuadradaFilPorCuadradaCol(A, B, AB, N);
-    triangularInferiorPorCuadrada(L, C, LC, N);
-    cuadradaPorTriangularSuperior(D, U, DU, N);
+    squareRowMatXSquareColMat(A, B, AB, N);
+    lowerRowMatXSquareColMat(L, C, LC, N);
+    squareRowMatXUpperColMat(D, U, DU, N);
 
-    sumarMatrices(AB, LC, M, length);
-    sumarMatrices(M, DU, M, length);
+    addMatrix(AB, LC, M, length);
+    addMatrix(M, DU, M, length);
 
-    sumU = sumarMatriz(U, ((N * (N + 1)) / 2));
-    sumL = sumarMatriz(L, ((N * (N + 1)) / 2));
+    sumU = sumMatrix(U, ((N * (N + 1)) / 2));
+    sumL = sumMatrix(L, ((N * (N + 1)) / 2));
    
     ulAvg = (sumU/(N*N)) * (sumL/(N*N));
     escalarPorMatriz(M, ulAvg, M, length);

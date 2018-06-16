@@ -1,0 +1,6 @@
+Con los datos obtenidos por la ejecución de los códigos y presentados en las tablas se puede observar que:
+
+\begin{itemize}
+\item El rendimiento de ambas APIs (POSIX Threads y Openmp) es casi identico, a excepción del ejercicio 2 cuando se realiza la multiplicación con matrices triangulares, la diferencia es que en Openmp es sencillo de implementar una asignación de tarea dinámica, en cambio en Pthreads dada su complejidad se optó por realizar asignación estática de trabajo, resultando así una diferencia de rendimiento entre ambas implementaciones.
+\item También se puede observar que las operaciones aritmeticas de matrices son altamente paralelizables, por lo que el rendimiento aumenta considerablemente al aumentar los threads. Esto se debe a que son tareas sin necesidad de mucha comunicación entre ellas. Estas concluciones pueden observarse en la eficiencia que resulta de calcular $ SpeedUp/NroThreads $ que en la mayoría de los casos es cercana a 1.
+\end{itemize}

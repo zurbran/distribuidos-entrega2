@@ -1,0 +1,105 @@
+%MIT License
+%
+%Copyright (c) 2017 Ignacio De Michiel
+%
+%Permission is hereby granted, free of charge, to any person obtaining a copy
+%of this software and associated documentation files (the "Software"), to deal
+%in the Software without restriction, including without limitation the rights
+%to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+%copies of the Software, and to permit persons to whom the Software is
+%furnished to do so, subject to the following conditions:
+%
+%The above copyright notice and this permission notice shall be included in all
+%copies or substantial portions of the Software.
+%
+%THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+%IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+%FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+%AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+%LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+%OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+%SOFTWARE.
+
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{extarticle}
+
+\input{template/packages.tex}
+
+
+%----------------------------------------------------------------------------------------
+%	MAIN CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\newcommand{\reportMainTitle}{Segunda Entrega} % Main title
+\newcommand{\reportHTitle}{Programacion con memoria compartida} % Title that shows in the upper rightmost corner in every page
+
+\newcommand{\reportSubTitle}{} % Subtitle
+
+\newcommand{\reportDate}{18/06/15} % Date
+
+\newcommand{\reportUpperTitle}{\underline{Sistemas distribuidos y paralelos}} % Upper title, often class
+
+\newcommand{\reportAuthors}{Russell Brandon (810/4)} % Authors
+
+\newcommand{\reportProfessor}{} % Professor name
+
+%\usepackage{mathptmx} % Times new roman
+\usepackage{courier} % Default courier font
+
+%\usepackage[parfill]{parskip} % Paragraph skip instead of indentation
+
+% Margins
+\usepackage
+[
+        a4paper,% other options: a3paper, a5paper, etc
+        left=3.0cm,
+        right=3.0cm,
+        top=2.5cm,
+        bottom=2.5cm,
+]
+{geometry}
+
+\linespread{1.25} % Line spacing (1.25 = 1.5pt)
+
+
+%----------------------------------------------------------------------------------------
+%	END MAIN CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\input{template/configs.tex} % Don't remove
+
+\numberwithin{equation}{section}
+
+\begin{document}
+
+\input{template/titlepage.tex} % This is optional
+
+\input{template/toc.tex} % This is optional
+
+\input{template/beginbody.tex} % Don't remove
+
+\section{Aspectos Generales}
+
+\input{tex/aspectos.tex}
+
+\section{Ejercicio 1}
+
+\input{tex/ej1o.tex}
+
+\section{Ejercicio 2}
+
+\input{tex/ej2o.tex}
+
+\section{Ejercicio 3}
+
+\input{tex/ej3o.tex}
+
+\section{Conclusiones}
+
+\input{tex/conclusiones.tex}
+
+\end{document}

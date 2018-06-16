@@ -1,0 +1,88 @@
+\setlength{\headheight}{30pt} 
+\pagestyle{fancy}
+\lhead{} % Top left header
+\cfoot{} % Bottom center footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+\setlength{\abovecaptionskip}{0pt}
+\setlist{itemsep=-0.15em, leftmargin=3.25em} % Adjust enum and item list margins
+
+% Improve floats positioning
+\renewcommand\topfraction{0.85}
+\renewcommand\bottomfraction{0.85}
+\renewcommand\textfraction{0.1}
+\renewcommand\floatpagefraction{0.85}
+
+%----------------------------------------------------------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\newcaptionname{spanish}{\lstlistingname}{Snippet}
+
+\definecolor{MyDarkGreen}{rgb}{0.0,0.4,0.0} % This is the color used for comments
+\lstloadlanguages{Perl} % Load Perl syntax for listings, for a list of other languages supported see: ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf
+\lstset{language=Perl, % Use Perl in this example
+        frame=single, % Single frame around code
+        breaklines=true,
+        postbreak=\raisebox{0ex}[0ex][0ex]{\ensuremath{\color{red}\hookrightarrow\space}},
+        basicstyle=\small\ttfamily, % Use small true type font
+        keywordstyle=[1]\color{Blue}\bf, % Perl functions bold and blue
+        keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+        keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+        identifierstyle=, % Nothing special about identifiers                                         
+        commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+        stringstyle=\color{Purple}, % Strings are purple
+        showstringspaces=false, % Don't put marks in string spaces
+        tabsize=5, % 5 spaces per tab
+        %
+        % Put standard Perl functions not included in the default language here
+        morekeywords={rand},
+        %
+        % Put Perl function parameters here
+        morekeywords=[2]{on, off, interp},
+        %
+        % Put user defined functions here
+        morekeywords=[3]{test},
+       	%
+        morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+        numbers=left, % Line numbers on left
+        firstnumber=1, % Line numbers start with line 1
+        numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+        stepnumber=5 % Line numbers go in steps of 5
+}
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script, the second parameter is the caption
+\newcommand{\perlscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1, language=Perl]{#1}
+\end{itemize}
+}
+
+% Creates a new command to include a C file, the first parameter is the filename of the script, the second parameter is the caption
+\newcommand{\ccode}[2]{
+\lstinputlisting[language=C]{#1}
+}
+
+% Creates a new command to include a matlab file, the first parameter is the filename of the script, the second parameter is the caption
+\newcommand{\matlabcode}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1, language=Matlab]{#1}
+\end{itemize}
+}
+
+% Creates a new command to include a bash script, the first parameter is the filename of the script, the second parameter is the caption
+\newcommand{\bashscript}[2]{
+\begin{itemize}
+\item[]\lstlisting[caption=#2,label=#1, language=Bash]{#1}
+\end{itemize}
+}
+
+% Creates a new command to write an inline bash snippet {label}{caption}{code}
+\newcommand{\bashsnippet}[3]{%
+\begin{description}
+\item[]\leavevmode
+	\begin{lstlisting}[caption={#2},label={lst:#1}, language=Bash]^^J
+	#3^^J
+	\end{lstlisting}
+\end{description}
+}

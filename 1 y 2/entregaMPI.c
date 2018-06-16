@@ -6,18 +6,11 @@
 #include <omp.h>
 #endif
 
-#define obtenerValorMatrizFila(M, F, C, N) (M[(F)*(N)+(C)])
-#define asignarValorMatrizFila(M, F, C, N, VALOR) (M[(F)*(N)+(C)] = (VALOR))
+#define obtenerIndiceMatrizFila(F, C, N) ((F)*(N)+(C))
 
-#define obtenerValorMatrizColumna(M, F, C, N) (M[(F)+(N)*(C)])
-#define asignarValorMatrizColumna(M, F, C, N, VALOR) (M[(F)+(N)*(C)] = (VALOR))
+#define obtenerIndiceMatrizColumna(F, C, N) ((F)+(N)*(C))
 
-#define obtenerValorMatrizTriaInfFila(M, F, C) (M[(C)+((F)*((F) + 1))/2])
-#define asignarValorMatrizTriaInfFila(M, F, C, VALOR) (M[(C)+((F)*((F) + 1))/2]= (VALOR))
-#define desplazamientoMatrizTriaInfFila(F, C) ((C)+((F)*((F) + 1))/2)
-
-#define obtenerValorMatrizTriaSupColumna(M, F, C) (M[(F)+((C)*((C) + 1))/2])
-#define asignarValorMatrizTriaSupColumna(M, F, C, VALOR) (M[(F)+((C)*((C) + 1))/2]= (VALOR))
+#define obtenerIndiceMatrizTriaSupColumna(F, C) ((F)+((C)*((C) + 1))/2)
 
 enum distribucion{COLUMNAS,FILAS};
 
@@ -28,7 +21,7 @@ void inicializarMatriz(double *A, double valor, int N, enum distribucion dist)
         {
             for(int j = 0; j < N; j++)
             {
-                    asignarValorMatrizFila(A,i,j,N,valor);
+                    A[obtenerIndiceMatrizFila(i,j,N)] = valor;
             }
         }
     else
@@ -36,7 +29,7 @@ void inicializarMatriz(double *A, double valor, int N, enum distribucion dist)
         {
             for(int j = 0; j < N; j++)
             {
-                    asignarValorMatrizColumna(A,i,j,N,valor);
+                    A[obtenerIndiceMatrizColumna(i,j,N)] = valor;
             }
         }
 }
@@ -47,7 +40,7 @@ void inicializarMatrizInfFil(double *L, double valor, int N)
 	{
 		for(int j = 0; j < i + 1; j++)
 		{
-			asignarValorMatrizFila(L, i, j, N, valor);
+			L[obtenerIndiceMatrizFila(i, j, N)] = valor;
 		}
 	} 
 }
@@ -58,69 +51,48 @@ void inicializarMatrizSupCol(double *U, double valor, int N)
 	{
 		for(int j = i; j < N; j++)
 		{
-			asignarValorMatrizTriaSupColumna(U, i, j, valor);
+			U[obtenerIndiceMatrizTriaSupColumna(i, j)] = valor;
 		}
 	} 
 }
 
-void cuadradaParcialPorCuadrada(double *A, double *B, double *C, int N, int workingRows)
+void partialSquareRowMatXSquareColMat(double *A, double *B, double *C, int N, int workingRows)
 {
-	double sum;
-	int i, j, k;
-	#pragma omp parallel for private(sum, j, k)
-	for(i = 0; i < workingRows; i++)
+	double res;
+	#pragma omp parallel for private(res)
+	for(int i = 0; i < workingRows; i++)
 	{
-		for(j = 0; j < N; j++)
+		for(int j = 0; j < N; j++)
 		{
-			sum = 0.0;
-			for(k = 0; k < N; k++)
+			res = 0.0;
+			for(int k = 0; k < N; k++)
 			{
-				sum += obtenerValorMatrizFila(A, i, k, N) * obtenerValorMatrizColumna(B, k, j, N);
+				res += A[obtenerIndiceMatrizFila(i, k, N)] * B[obtenerIndiceMatrizColumna(k, j, N)];
 			}
-			asignarValorMatrizFila(C, i, j, N, sum);
+			C[obtenerIndiceMatrizFila(i, j, N)] = res;
 		}
 	}  
 }
 
-void parcialTriangularInferiorPorCuadrada(double *L, double *A, double *C, int N, int workingRows)
+void partialSquareRowMatXUpperColMat(double *A, double *U, double *C, int N, int workingRows)
 {
-	double sum;
-	int i, j, k;
-	#pragma omp parallel for private(sum, j, k)
-	for(i = 0; i < workingRows; i++)
+	double res;
+	#pragma omp parallel for private(res) schedule(dynamic, 64)
+	for(int i = 0; i < workingRows; i++)
 	{
-		for(j = 0; j < N; j++)
+		for(int j = 0; j < N; j++)
 		{
-			sum = 0.0;
-			for(k = 0; k < i + 1; k++)
+			res = 0.0;
+			for(int k = 0; k < j + 1; k++)
 			{
-				sum += obtenerValorMatrizFila(L, i, k, N) * obtenerValorMatrizColumna(A, k, j, N);
+				res += A[obtenerIndiceMatrizFila(i, k, N)] * U[obtenerIndiceMatrizTriaSupColumna(k, j)];
 			}
-			asignarValorMatrizFila(C, i, j, N, sum);
+			C[obtenerIndiceMatrizFila(i, j, N)] = res;
 		}
 	}  
 }
 
-void parcialCuadradaPorTriangularSuperior(double *A, double *U, double *C, int N, int workingRows)
-{
-	double sum;
-	int i, j, k;
-	#pragma omp parallel for private(sum, j, k)
-	for(i = 0; i < workingRows; i++)
-	{
-		for(j = 0; j < N; j++)
-		{
-			sum = 0.0;
-			for(k = 0; k < j+ 1; k++)
-			{
-				sum += obtenerValorMatrizFila(A, i, k, N) * obtenerValorMatrizTriaSupColumna(U, k, j);
-			}
-			asignarValorMatrizFila(C, i, j, N, sum);
-		}
-	}  
-}
-
-void sumarMatrices(double *A, double *B, double *C, int length)
+void addMatrix(double *A, double *B, double *C, int length)
 {
 	#pragma omp parallel for
 	for(int i = 0; i < length; i++)
@@ -129,15 +101,15 @@ void sumarMatrices(double *A, double *B, double *C, int length)
 	}
 }
 
-double sumarMatriz(double *A, int length)
+double sumMatrix(double *A, int length)
 {
-	double sum = 0.0;
-	#pragma omp parallel for reduction(+ : sum)
+	double suma = 0.0;
+	#pragma omp parallel for reduction(+ : suma)
 	for(int i = 0; i < length; i++)
 	{
-		sum += A[i];
+		suma += A[i];
 	}
-	return sum;
+	return suma;
 }
 
 void escalarPorMatriz(double *A, double esc, double *C, int length)
@@ -160,8 +132,30 @@ double dwalltime()
 	return sec;
 }
 
-void ejercicioUno(int N, int rank, int size)
+int main(int argc, char ** argv)
 {
+    MPI_Init(&argc, &argv);
+    int rank, size, N;
+
+    #if defined _OPENMP
+        int Threads;
+        if ((argc != 3) || ((N = atoi(argv[1])) <= 0) || ((T = atoi(argv[2])) <= 0))
+        {
+            printf("Dimension no especificada o Threads incorrectos");
+            exit(1);
+        }
+        omp_set_num_threads(Threads);
+    #else
+        if(argc != 2 || (N = atoi(argv[1])) <= 0)
+        {
+            printf("Dimension no especificada");
+            exit(1);
+        }
+    #endif
+
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
     int length = N*N;
     int partialSize = length / size;
     int workingRows = N / size;
@@ -209,16 +203,17 @@ void ejercicioUno(int N, int rank, int size)
 	MPI_Bcast(C, length, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	MPI_Bcast(U, (N * (N + 1)) / 2, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
-    cuadradaParcialPorCuadrada(partA, B, partAB, N, workingRows);
-    parcialTriangularInferiorPorCuadrada(partL, C, partLC, N, workingRows);
-    parcialCuadradaPorTriangularSuperior(partD, U, partDU, N, workingRows);
+	double tiempoSlotIni = dwalltime();
 
-    sumarMatrices(partAB, partLC, partM, partialSize);
-    sumarMatrices(partM, partDU, partM, partialSize);
+    partialSquareRowMatXSquareColMat(partA, B, partAB, N, workingRows);
+    partialSquareRowMatXSquareColMat(partL, C, partLC, N, workingRows);
+    partialSquareRowMatXUpperColMat(partD, U, partDU, N, workingRows);
 
-    sumaPartU = sumarMatriz(U + (((N * (N + 1)) / 2)/size * rank), ((N * (N + 1)) / 2)/size);
+    addMatrix(partAB, partLC, partM, partialSize);
+    addMatrix(partM, partDU, partM, partialSize);
 
-    sumaPartL = sumarMatriz(partL, partialSize);
+    sumaPartU = sumMatrix(U + (((N * (N + 1)) / 2)/size * rank), ((N * (N + 1)) / 2)/size);
+    sumaPartL = sumMatrix(partL, partialSize);
 
     MPI_Allreduce(&sumaPartU, &sumU, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
     MPI_Allreduce(&sumaPartL, &sumL, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
@@ -226,40 +221,34 @@ void ejercicioUno(int N, int rank, int size)
     ulAvg = (sumU/(N*N)) * (sumL/(N*N));
     escalarPorMatriz(partM, ulAvg, partM, partialSize);
 
+	double tiempoSlotFin = dwalltime() - tiempoSlotIni;
+
+	printf("Tiempo de proceso nro %d: %lf.\n",rank,tiempoSlotFin);
+
     MPI_Gather(partM, partialSize, MPI_DOUBLE, M, partialSize, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     if(rank == 0)
     {
         printf("El tiempo de ejecucion es: %lf.\n", dwalltime() - tiempoInit);
+		free(A);
+		free(D);
+		free(L);
+		free(M);
     }
-}
+	else
+	{
+		free(partA);
+		free(partL);
+		free(partD);
+		free(partM);
+		free(partAB);
+		free(partLC);
+		free(partDU);
+	}
 
-int main(int argc, char ** argv)
-{
-    MPI_Init(&argc, &argv);
-    int rank, size, N;
-
-    #if defined _OPENMP
-        int T;
-        if ((argc != 3) || ((N = atoi(argv[1])) <= 0) || ((T = atoi(argv[2])) <= 0))
-        {
-            printf("\nUsar: %s n t\n n: Dimension de la matriz\n T: Cantidad de threads", argv[0]);
-            exit(1);
-        }
-
-        omp_set_num_threads(T);
-    #else
-        if(argc != 2 || (N = atoi(argv[1])) <= 0)
-        {
-            printf("\nUsar: %s n t\n n: Dimension de la matriz\n", argv[0]);
-            exit(1);
-        }
-    #endif
-
-    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
-    MPI_Comm_size(MPI_COMM_WORLD, &size);
-
-    ejercicioUno(N,rank,size);
+	free(B);
+	free(C);
+	free(U);
 
     MPI_Finalize();
     return 0;

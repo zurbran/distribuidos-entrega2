@@ -1,0 +1,44 @@
+\subsection{Inciso}
+
+Paralelizar con OpenMP un algoritmo que cuente la cantidad de número pares en un vector de N elementos. Al finalizar, el total debe quedar en una variable llamada pares.
+Evaluar con valores de N donde el algoritmo paralelo represente una mejora respecto al algoritmo secuencial.
+
+\subsection{Secuencial}
+
+Se corre el mismo código que el de Openmp pero ignorando las librerías.
+
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 3: Tiempos Secuenciales}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{N} & \textbf{Tiempo} \\ \hline
+200000000  & 0.40354         \\ \hline
+400000000  & 0.807082        \\ \hline
+800000000  & 1.613978        \\ \hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Openmp}
+
+Se utiliza nuevamente la clausula de los ejercicios previos (reduction(+:pares)) solo que ésta vez se introduce un condicional dentro del bucle.
+
+\ccode{code/ej3.c}{}
+
+Se utiliza la máscara en vez del operador módulo para optimizar el tiempo de ejecución del programa.
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 3: Tiempos, Speedup y eficiencia de Openmp}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{N} & \textbf{Threads} & \textbf{Tiempo} & \textbf{Speedup} & \textbf{Eficiencia} \\ \hline
+512        & 2                & 0.075738        & 1.96142667        & 0.98071333          \\ \hline
+1024       & 2                & 0.419602        & 1.9234465       & 0.96172325          \\ \hline
+2048       & 2                & 0.852536        & 1.89314938       & 0.94657469          \\ \hline
+512        & 4                & 0.109328        & 3.69109469       & 0.92277367          \\ \hline
+1024       & 4                & 0.209235        & 3.85729921       & 0.96432480          \\ \hline
+2048       & 4                & 0.408706        & 3.94899512       & 0.98724878          \\ \hline
+\end{tabular}
+\end{table}

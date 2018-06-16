@@ -1,0 +1,126 @@
+./MPIseq 512
+El tiempo de ejecucion es: 0.783880.
+./MPIseq 512
+El tiempo de ejecucion es: 0.782625.
+./MPIseq 512
+El tiempo de ejecucion es: 0.783292.
+./MPIseq 1024
+El tiempo de ejecucion es: 6.304418.
+./MPIseq 1024
+El tiempo de ejecucion es: 6.302165.
+./MPIseq 1024
+El tiempo de ejecucion es: 6.307825.
+./MPIseq 2048
+El tiempo de ejecucion es: 50.513956.
+./MPIseq 2048
+El tiempo de ejecucion es: 50.488621.
+./MPIseq 2048
+El tiempo de ejecucion es: 50.504552.
+mpirun -np 4 MPI 512
+El tiempo de ejecucion es: 0.182414.
+mpirun -np 4 MPI 512
+El tiempo de ejecucion es: 0.186840.
+mpirun -np 4 MPI 512
+El tiempo de ejecucion es: 0.181757.
+mpirun -np 4 MPI 1024
+El tiempo de ejecucion es: 1.474555.
+mpirun -np 4 MPI 1024
+El tiempo de ejecucion es: 1.473953.
+mpirun -np 4 MPI 1024
+El tiempo de ejecucion es: 1.465159.
+mpirun -np 4 MPI 2048
+El tiempo de ejecucion es: 11.314659.
+mpirun -np 4 MPI 2048
+El tiempo de ejecucion es: 11.286774.
+mpirun -np 4 MPI 2048
+El tiempo de ejecucion es: 11.339671.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 512
+El tiempo de ejecucion es: 0.269443.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 512
+El tiempo de ejecucion es: 0.681134.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 512
+El tiempo de ejecucion es: 0.275816.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 1024
+El tiempo de ejecucion es: 1.668988.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 1024
+El tiempo de ejecucion es: 1.665628.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 1024
+El tiempo de ejecucion es: 1.779124.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 2048
+El tiempo de ejecucion es: 11.705539.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 2048
+El tiempo de ejecucion es: 11.689014.
+mpirun -np 4 -machinefile maquinas_2_4 MPI 2048
+El tiempo de ejecucion es: 11.709789.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 512
+El tiempo de ejecucion es: 0.289265.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 512
+El tiempo de ejecucion es: 0.298736.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 512
+El tiempo de ejecucion es: 0.301294.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 1024
+El tiempo de ejecucion es: 1.064992.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 1024
+El tiempo de ejecucion es: 1.082478.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 1024
+El tiempo de ejecucion es: 1.486124.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 2048
+El tiempo de ejecucion es: 6.876791.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 2048
+El tiempo de ejecucion es: 7.115870.
+mpirun -np 8 -machinefile maquinas_2_8 MPI 2048
+El tiempo de ejecucion es: 6.887844.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.292534.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.294289.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.293310.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 2.351325.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 2.354764.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 2.550402.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 20.043979.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 19.309568.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 19.011428.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 2
+El tiempo de ejecucion es: 0.315295.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 2
+El tiempo de ejecucion es: 0.517320.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 2
+El tiempo de ejecucion es: 0.319711.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 2
+El tiempo de ejecucion es: 2.151639.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 2
+El tiempo de ejecucion es: 2.149052.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 2
+El tiempo de ejecucion es: 2.157468.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 2
+El tiempo de ejecucion es: 15.813178.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 2
+El tiempo de ejecucion es: 15.763994.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 2
+El tiempo de ejecucion es: 15.744868.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.215725.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.218573.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 512 4
+El tiempo de ejecucion es: 0.216708.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 1.340144.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 1.333917.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 1024 4
+El tiempo de ejecucion es: 1.338279.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 9.245100.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 9.266814.
+mpirun -np 2 -machinefile maquinas_2_2 --bind-to none MPIOpm 2048 4
+El tiempo de ejecucion es: 9.230128.

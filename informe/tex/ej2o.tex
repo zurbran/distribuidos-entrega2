@@ -1,0 +1,102 @@
+\subsection{Enunciado}
+Realizar un algoritmo Pthreads y otro OpenMP que resuelva la expresión:
+$$ M = \overline{u.l}AAC + \overline{b}LBE + \overline{b}DUF $$
+Donde A, B, C, D, E y F son matrices de NxN. L y U son matrices
+triangulares de N*N inferior y superior, respectivamente. $\overline{b}$ es el promedio de los valores de los elementos de la matriz B y $\overline{u.l}$ es el producto de los promedios de los valores de los elementos de las matrices U y L, respectivamente. Evaluar N=512, 1024 y 2048.
+
+\subsection{Secuencial}
+
+Al igual que el ejercicio 1, se compila el código de Openmp pero sin las librerías OpenMP.
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 2: Tiempos secuenciales}
+\label{my-label}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{N} & \textbf{Tiempo} \\ \hline
+512        & 1.912922        \\ \hline
+1024       & 15.497197       \\ \hline
+2048       & 124.156582      \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Openmp}
+
+Se reutilizan las dos funciones mencionadas del ejercicio uno y además se agregan las siguientes:
+
+\begin{enumerate}
+\item \textbf{escalarPorMatriz(double *A, double *C, double escalar, int length):} Multiplica una matriz A por un escalar y la almacena en una matriz C.
+\item \textbf{void sumarMatrices(double *A, double *B, double *C, int length):} Suma dos matrices que estén ordenadas de la misma forma ya que internamete realiza la suma vectorialmente.
+\item \textbf{double sumarMatriz(double *A, int length):} Suma todos los elementos de la matriz A y devuelve el resultado en formato double.
+\item \textbf{void triangularInferiorPorCuadrada(double *L, double *A, double *C):} Multiplica una matriz triangular inferior L ordenada por filas por una matriz A ordenada por columnas y deja el resultado en una matriz C.
+\item \textbf{void triangularSuperiorPorCuadrada(double *U, double *B, double *C):} Multiplica una matriz triangular superior U ordenada por filas por una matriz A ordenada por columnas y deja el resultado en una matriz C.
+\end{enumerate}
+
+Para lograr distribuir correctamente la carga en las matrices triangulares (ya que si se divide la carga por columnas o filas dada la naturaleza de estas matrices quedaría desbalanceada la carga) se utiliza una carga dinamica con la clausula \textbf{schedule dynamic} como se muestra en las dos siguientes funciones:
+
+\ccode{code/ej2opendinamic.c}{}
+
+La secuencia en la que se resolvió la ecuación es la siguiente:
+
+Primero se calcula el primer termino:
+
+$$ AC $$
+$$ AAC $$
+$$ \overline{u.l}AAC $$
+
+Luego el segundo y tercer termino se realiza se la siguiente manera:
+
+$$ BE $$
+$$ LBE $$
+$$ UF $$
+$$ DUF $$
+$$\overline{b}(LBE + DUF) = M$$
+
+Y por ultimo:
+
+$$ M = M + \overline{u.l}AAC $$
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 2: Tiempos, Speedup y eficiencia de Openmp}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{N} & \textbf{Threads} & \textbf{Tiempo} & \textbf{Speedup} & \textbf{Eficiencia} \\ \hline
+512        & 2                & 0.970493        & 1.97108274       & 0.98554137          \\ \hline
+1024       & 2                & 7.822962        & 1.9809884        & 0.9904942           \\ \hline
+2048       & 2                & 62.263788       & 1.99404158       & 0.99702079          \\ \hline
+512        & 4                & 0.505946        & 3.78088175       & 0.94522044          \\ \hline
+1024       & 4                & 3.972467        & 3.90115185       & 0.97528796          \\ \hline
+2048       & 4                & 31.458613       & 3.94666421       & 0.98666605          \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Pthreads}
+
+Nuevamente a diferencia de Openmp se utiliza el recurso de las barreras para sincronizar a cada thread luego de realizar cada función de cálculo. Y así tambien se incorporan nuevos argumentos los cuales son pasados a los threads (limites de las matrices cuadradasy limites de las matrices triangulares tratadas como vectores) como se muestra a continuación :
+
+\ccode{code/ej2threadargs.c}{}
+
+A la hora de calcular el promedio la función sumaMatriz pasa a ser una función de tipo \textit{void} en la cual cada thread va actualizando una variable llamada \textit{sumaPromedio} a travez de un mutex de tipo \textbf{pthread\_mutext\_t} el cual les garantiza exxclusión mutua a la hora de modificar su valor. La función es mostrada a continuación:
+
+\ccode{code/sumarmatriz.c}{} 
+
+También como sucede con el ejercicio anterior, dado que hay que calcular los límites de los threads para que luego pasen como paremetros sus límites a las funciones, se deben agregar los argumentos (\textit{int start, int end}) a todas las funciones mencionadas previamente. Resultando así la función que ejecutará cada thread:
+
+\ccode{code/ej2pthread.c}{}
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 2: Tiempos, Speedup y eficiencia de Pthreads}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{N} & \textbf{Threads} & \textbf{Tiempo} & \textbf{Speedup} & \textbf{Eficiencia} \\ \hline
+512        & 2                & 1.058434        & 1.80731345       & 0.90365672          \\ \hline
+1024       & 2                & 8.620706        & 1.79767144       & 0.89883572          \\ \hline
+2048       & 2                & 68.79332        & 1.80477671       & 0.90238836          \\ \hline
+512        & 4                & 0.559781        & 3.41726854       & 0.85431713          \\ \hline
+1024       & 4                & 4.520093        & 3.42851286       & 0.85712822          \\ \hline
+2048       & 4                & 38.809931       & 3.19909309       & 0.79977327          \\ \hline
+\end{tabular}
+\end{table}

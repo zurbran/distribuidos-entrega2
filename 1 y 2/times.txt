@@ -1,0 +1,91 @@
+./MPIseq 512
+El tiempo de ejecucion es: 0.690086.
+./MPIseq 512
+El tiempo de ejecucion es: 0.658003.
+./MPIseq 512
+El tiempo de ejecucion es: 0.684388.
+./MPIseq 1024
+El tiempo de ejecucion es: 5.242622.
+./MPIseq 1024
+El tiempo de ejecucion es: 5.119081.
+./MPIseq 1024
+El tiempo de ejecucion es: 5.119577.
+./MPIseq 2048
+El tiempo de ejecucion es: 41.054116.
+./MPIseq 2048
+El tiempo de ejecucion es: 41.013358.
+./MPIseq 2048
+El tiempo de ejecucion es: 41.035283.
+mpirun -np 4 MPI 512
+Tiempo de proceso nro 0: 0.216323.
+Tiempo de proceso nro 1: 0.216212.
+Tiempo de proceso nro 2: 0.216208.
+Tiempo de proceso nro 3: 0.216328.
+El tiempo de ejecucion es: 0.221200.
+mpirun -np 4 MPI 512
+Tiempo de proceso nro 0: 0.228210.
+Tiempo de proceso nro 1: 0.228068.
+Tiempo de proceso nro 2: 0.228075.
+Tiempo de proceso nro 3: 0.228205.
+El tiempo de ejecucion es: 0.234060.
+mpirun -np 4 MPI 512
+Tiempo de proceso nro 0: 0.224021.
+Tiempo de proceso nro 1: 0.223902.
+Tiempo de proceso nro 2: 0.223902.
+Tiempo de proceso nro 3: 0.224023.
+El tiempo de ejecucion es: 0.229191.
+mpirun -np 4 MPI 1024
+Tiempo de proceso nro 0: 1.725296.
+Tiempo de proceso nro 1: 1.725252.
+Tiempo de proceso nro 2: 1.725218.
+Tiempo de proceso nro 3: 1.725218.
+El tiempo de ejecucion es: 1.745025.
+mpirun -np 4 MPI 1024
+Tiempo de proceso nro 0: 1.721417.
+Tiempo de proceso nro 1: 1.721379.
+Tiempo de proceso nro 2: 1.721344.
+Tiempo de proceso nro 3: 1.721343.
+El tiempo de ejecucion es: 1.741900.
+mpirun -np 4 MPI 1024
+Tiempo de proceso nro 0: 1.726468.
+Tiempo de proceso nro 1: 1.726426.
+Tiempo de proceso nro 2: 1.726396.
+Tiempo de proceso nro 3: 1.726392.
+El tiempo de ejecucion es: 1.746098.
+mpirun -np 4 MPI 2048
+Tiempo de proceso nro 1: 13.714909.
+Tiempo de proceso nro 2: 13.714873.
+Tiempo de proceso nro 3: 13.714866.
+Tiempo de proceso nro 0: 13.714957.
+El tiempo de ejecucion es: 13.786060.
+mpirun -np 4 MPI 2048
+Tiempo de proceso nro 0: 13.748419.
+Tiempo de proceso nro 1: 13.748386.
+Tiempo de proceso nro 2: 13.748362.
+Tiempo de proceso nro 3: 13.748359.
+El tiempo de ejecucion es: 13.816659.
+mpirun -np 4 MPI 2048
+Tiempo de proceso nro 0: 13.734265.
+Tiempo de proceso nro 1: 13.734218.
+Tiempo de proceso nro 2: 13.734194.
+Tiempo de proceso nro 3: 13.734192.
+El tiempo de ejecucion es: 13.802329.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+Tiempo de proceso nro 0: 0.219342El tiempo de ejecucion es: 0.223565.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+Tiempo de proceso nro 0: 0.217576El tiempo de ejecucion es: 0.220306.
+mpirun -np 1 --bind-to none MPIOpm 512 4
+Tiempo de proceso nro 0: 0.217694El tiempo de ejecucion es: 0.221681.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+Tiempo de proceso nro 0: 1.717205El tiempo de ejecucion es: 1.728368.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+Tiempo de proceso nro 0: 1.718542El tiempo de ejecucion es: 1.733711.
+mpirun -np 1 --bind-to none MPIOpm 1024 4
+Tiempo de proceso nro 0: 1.720741El tiempo de ejecucion es: 1.731165.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+Tiempo de proceso nro 0: 13.740488El tiempo de ejecucion es: 13.782278.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+Tiempo de proceso nro 0: 13.737892El tiempo de ejecucion es: 13.779709.
+mpirun -np 1 --bind-to none MPIOpm 2048 4
+Tiempo de proceso nro 0: 13.882513El tiempo de ejecucion es: 13.924620.
+

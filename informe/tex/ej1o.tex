@@ -1,0 +1,92 @@
+\subsection{Enunciado}
+
+Resolver con Pthreads y OpenMP la siguiente expresión: R = AA
+Donde A es una matriz de NxN. Analizar el producto AA y utilizar la
+estrategia que proporcione el mejor tiempo de ejecucion.
+Evaluar N=512, 1024 y 2048.
+
+\subsection{Secuencial}
+
+Se compila el código de OpenMP pero sin sus librerías haciendo así de esta forma que la clausula \textit{\# pragma parallel} no tenga efecto alguno.
+
+\begin{table}[htbp]
+\centering
+\caption{Tiempos secuenciales ejercicio uno}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{N} & \textbf{Tiempo} \\ \hline
+512        & 0.375048        \\ \hline
+1024       & 3.046207        \\ \hline
+2048       & 24.410414       \\ \hline
+\end{tabular}
+\end{table}
+
+El código implementado se detallará a continuación en la siguiente sección.
+ 
+\subsubsection{Openmp}
+Utilizando la API OpenMP se implementaron dos funciones claves para la solución del ejercicio mismo, estas son las siguientes:
+
+\begin{enumerate}
+\item \textbf{void filasAColumnas(double *A, double *B):} Pasa una matriz A ordenada en filas a una matriz B ordenada en columnas.
+\item \textbf{void mulMatrices(double *A, double *B, double *C):} Multiplica A*B y almacena el resultado en C. Siendo A ordenada por filas, B por columnas y el resultado C por filas.
+\end{enumerate}
+
+Para la paralelización de dichas funciones se escribe previo al loop \textit{for} la sentencia \textbf{\# pragma omp parallel for}.
+
+A continuación se muestran los macros utilizados junto con la implementación de las funciones mencionadas recientemente:
+
+\ccode{code/ej1open.c}{}
+
+Luego de realizar la operación: $$R = AA$$ E imprimir el tiempo que demoró en realizarse, se verifica que el resultado sea el correcto.
+
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 1: Tiempos, Speedup y eficiencia de Openmp}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{N} & \textbf{Threads} & \textbf{Tiempo} & \textbf{Speedup} & \textbf{Eficiencia} \\ \hline
+512        & 2                & 0.187717        & 1.99794371       & 0.99897186          \\ \hline
+1024       & 2                & 1.5273          & 1.99450468       & 0.99725234          \\ \hline
+2048       & 2                & 12.204757       & 2.00007374       & 1.00003687          \\ \hline
+512        & 4                & 0.097357        & 3.85229619       & 0.96307405          \\ \hline
+1024       & 4                & 0.771325        & 3.94931708       & 0.98732927          \\ \hline
+2048       & 4                & 6.129219        & 3.98263041       & 0.9956576           \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Pthreads}
+
+Para el caso de las librerías POSIX Threads la principal diferencia en la implementación es que no se debe de usar la clausula \textit{\# pragma omp parallel for} sino que se han de calcular los limites de las iteraciones y asignarles dichos límites a los threads, es decir en otras palabras, redistribuir la carga/componentes de la matriz a ser procesados por cada thread. También a diferencia de la API Openmp, se implementó una función llamada \textbf{*ejercicioUno(void *args)} la cual es la que será ejecutada por cada thread individualmente, ésta misma contiene el código a ejecutar para realizar la operación requerida por el ejercicio.
+
+
+Los límites de cada thread son calculados previamente a asignarles su función y estos mismos son pasados cómo parametro a la función \textbf{void ejercicioUno(void args)}. Agregando así dos nuevos argumentos en las funciones:
+\begin{itemize}
+\item \textit{mulMatrices(double *A, double *B, double *C, int start, int end)}
+\item \textit{filasAColumnas(double *A, double *B, int start, int end)} 
+\end{itemize}
+Para la sincronización al momento de cambiar de función a otra (de \textbf{void filasAColumnas} a \textbf{void mulMatrices}) se implementó una barrera de tipo \textbf{pthread\_baerrir\_t} threadBarrier.
+
+
+Tanto la creación cómo el cerrado de los threads se realiza en el main mediante las funciones \textbf{pthread\_create()} y \textbf{pthread\_join()}.
+
+
+A continuación se detalla el tipo de dato de los argumentos que recibe cada threads y la función que ejecutan:
+
+\ccode{code/ej1pthread.c}{}
+
+
+\begin{table}[htbp]
+\centering
+\caption{Ejercicio 1: Tiempos, Speedup y eficiencia de Pthreads}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{N} & \textbf{Threads} & \textbf{Tiempo} & \textbf{Speedup} & \textbf{Eficiencia} \\ \hline
+512        & 2                & 0.189519        & 1.9789467        & 0.98947335          \\ \hline
+1024       & 2                & 1.530631        & 1.99016419       & 0.99508209          \\ \hline
+2048       & 2                & 12.244246       & 1.99362329       & 0.99681165          \\ \hline
+512        & 4                & 0.10018         & 3.74374127       & 0.93593532          \\ \hline
+1024       & 4                & 0.771032        & 3.95081786       & 0.98770447          \\ \hline
+2048       & 4                & 6.163424        & 3.96052811       & 0.99013203          \\ \hline
+\end{tabular}
+\end{table}
